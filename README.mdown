@@ -6,7 +6,7 @@ This is a simple implementation of the A* (A Star) pathfinding algorithm for lua
 
 It is based on the similarly easy to understand Python implementation by John Eriksson.
  
-[http://www.pygame.org/project-AStar-195-.html]()
+[http://www.pygame.org/project-AStar-195-.html](http://www.pygame.org/project-AStar-195-.html)
 
 ## Usage
 
