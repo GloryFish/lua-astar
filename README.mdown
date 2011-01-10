@@ -1,0 +1,59 @@
+# Lua A*
+
+## About
+
+This is a simple implementation of the A* (A Star) pathfinding algorithm for lua. It is not particularly fast, but it should be relatively easy to read and learn from.
+
+It is based on the similarly easy to understand Python implementation by John Eriksson.
+ 
+[http://www.pygame.org/project-AStar-195-.html]()
+
+## Usage
+
+Begin by implementing a map handler for your specific game. The map handler's job is to determine which nodes are valid for a given path and to calculate a heuristic score for each.
+
+You can find an example handler in "examplehandler.lua". Simply implement those methods in a table (most likely in your level or game object) and pass that table to the AStar class.
+    
+    local maphandler = MyMapHandler()
+    local astar = AStar(maphandler)
+
+When you want to calculate a path
+
+    local path = astar:findPath(start, end) 
+
+"start" and "end" are locations in your game. In the example handler, they are simple vectors with x, y components. However, they could be anything: hex tiles, states in a game of tic-tac-toe, etc. You simply need to implement the handler methods for your specific game needs.
+
+astar:findPath() will return a Path object with two methods. 
+
+path:getTotalMoveCost() returns the total cost of the path. You could use to limit enemy movement if the path cost was above a certain threshold.
+
+path:getNodes() returns a table containing each node in the path, from start to end.
+
+## Example
+
+You can find an example of this class in use in my Reddit Game Jam 05 submission "[Unrequited](http://www.reddit.com/r/RedditGameJam/comments/ez5b6/reddit_game_jam_05_final_submissions_thread/c1c33ds)".
+
+The [source code](https://github.com/GloryFish/RedditGameJam-05) is on GitHub.
+
+
+## License
+
+Licensed under the MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
