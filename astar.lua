@@ -6,7 +6,7 @@
 --  http://www.pygame.org/project-AStar-195-.html
 --
 --  Created by Jay Roberts on 2011-01-08.
---  Copyright 2011 GloryFish.org. All rights reserved.
+--  Copyright 2011 Jay Roberts All rights reserved.
 -- 
 --  Licensed under the MIT License
 --
@@ -28,12 +28,12 @@
 --  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 --  THE SOFTWARE.
 
-require 'class'
-
-Path = class(function(path, nodes, totalCost)
-  path.nodes = nodes
-  path.totalCost = totalCost
-end)
+require 'middleclass'
+Path = class('Path')
+function Path:initialize(nodes, totalCost)
+  self.nodes = nodes
+  self.totalCost = totalCost
+end
 
 function Path:getNodes()
   return self.nodes
@@ -43,23 +43,23 @@ function Path:getTotalMoveCost()
   return self.totalCost
 end
 
-
-Node = class(function(node, location, mCost, lid, parent)
-  node.location = location -- Where is the node located
-  node.mCost = mCost -- Total move cost to reach this node
-  node.parent = parent -- Parent node
-  node.score = 0 -- Calculated score for this node
-  node.lid = lid -- set the location id - unique for each location in the map
-end)
+Node = class('Node')
+function Node:initialize(location, mCost, lid, parent)
+  self.location = location -- Where is the node located
+  self.mCost = mCost -- Total move cost to reach this node
+  self.parent = parent -- Parent node
+  self.score = 0 -- Calculated score for this node
+  self.lid = lid -- set the location id - unique for each location in the map
+end
 
 function Node.__eq(a, b)
   return a.lid == b.lid
 end
 
-
-AStar = class(function(astar, maphandler) 
-  astar.mh = maphandler
-end)
+AStar = class('AStar')
+function AStar:initialize(maphandler) 
+  self.mh = maphandler
+end
 
 function AStar:_getBestOpenNode()
   local bestNode = nil
@@ -106,7 +106,7 @@ function AStar:_handleNode(node, goal)
   local nodes = self.mh:getAdjacentNodes(node, goal)
 
   for i, n in ipairs(nodes) do repeat
-    if n.location == goal then -- Reached the destination
+    if self.mh:locationsAreEqual(n.location, goal) then
       return n
     elseif self:_in_table(n.lid, self.c) then -- Alread in close, skip this
       break
@@ -138,6 +138,10 @@ function AStar:findPath(fromlocation, tolocation)
   local fnode = self.mh:getNode(fromlocation)
 
   local nextNode = nil
+
+  if fnode == nil then
+    print 'fnode is nil'
+  end
   
   if fnode ~= nil then
     table.insert(self.on, fnode)
@@ -153,12 +157,14 @@ function AStar:findPath(fromlocation, tolocation)
     end
     nextNode = self:_getBestOpenNode()
   end
-
+  
+  print 'returning nil'
+  
   return nil
   
 end
 
-function Astar:_node_table_index(tbl, lid)
+function AStar:_node_table_index(tbl, lid)
   for i,n in ipairs(tbl) do
     if n == lid then
       return i
