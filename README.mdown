@@ -40,4 +40,4 @@ The [source code](https://github.com/GloryFish/RedditGameJam-05) is on GitHub.
 
 ## License
 
-See [license.txt](/license.txt)
+See [license.txt](https://github.com/GloryFish/lua-astar/blob/master/license.txt)
