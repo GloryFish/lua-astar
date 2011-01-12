@@ -5,6 +5,8 @@
 --  Created by Jay Roberts on 2011-01-12.
 --  Copyright 2011 GloryFish.org. All rights reserved.
 -- 
+--  This is a simple test script which demonstrates the AStar class in use.
+--
 
 
 require 'astar'
@@ -13,6 +15,7 @@ require 'tiledmaphandler'
 
 local handler = TiledMapHandler()
 local astar = AStar(handler)
+
 
 local start = {
   x = 2,
