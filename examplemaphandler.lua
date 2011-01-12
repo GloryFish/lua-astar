@@ -26,15 +26,17 @@
 --  THE SOFTWARE.
 
 --  This is an example of a class that is responsible for providing nodes to the AStar
---  class and determining if they are walkable, and calculating their costs.
+--  class and determining if they are walkable, equivalent, and calculating their costs.
 --
 --  You could implement these methods in your Level class, for example, and then
 --  pass your whole level to the AStar class to use as the handler.
 
-require 'class'
+require 'middleclass'
 
-Handler = class(function(handler)
-end)
+Handler = class('Handler')
+
+function Handler:initialize()
+end
 
 function Handler:getNode(location)
   -- Here you make sure the requested node is valid (i.e. on the map, not blocked)
@@ -42,6 +44,14 @@ function Handler:getNode(location)
   return Node(location, 10, location.y * #self.tiles + location.x)
 end
 
+function Handler:locationsAreEqual(a, b)
+  -- Here you check to see if two locations (not nodes) are equivalent
+  -- If you are using a vector for a location you may be able to simply
+  -- return a == b
+  -- however, if your location is represented some other way, you can handle 
+  -- it correctly here without having to modufy the AStar class
+  return a.x == b.x and a.y == b.y
+end
 
 function Handler:getAdjacentNodes(curnode, dest)
   -- Given a node, return a table containing all adjacent nodes
@@ -79,7 +89,7 @@ end
 function Handler:_handleNode(x, y, fromnode, destx, desty)
   -- Fetch a Node for the given location and set its parameters
   local n = self:getNode(vector(x, y))
-  
+
   if n ~= nil then
     local dx = math.max(x, destx) - math.min(x, destx)
     local dy = math.max(y, desty) - math.min(y, desty)
