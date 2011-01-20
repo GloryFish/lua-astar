@@ -11,27 +11,40 @@
 
 require 'astar'
 require 'tiledmaphandler'
+require 'profiler'
 
 
 local handler = TiledMapHandler()
 local astar = AStar(handler)
 
-
-local start = {
-  x = 2,
-  y = 2
-}
-
-local goal = {
-  x = 23,
-  y = 23
-}
+profiler = newProfiler()
+profiler:start()
 
 
-local path = astar:findPath(start, goal)
+for i=1,100 do
 
-if path ~= nil then
-  print 'Path found'
-else
-  print 'No path'
+   local start = {
+     x = math.random(1, 23),
+     y = math.random(1, 23)
+   }
+
+   local goal = {
+      x = math.random(1, 23),
+      y = math.random(1, 23)
+   }
+   
+   local path = astar:findPath(start, goal)
+
+   if path ~= nil then
+     print 'Path found'
+   else
+     print 'No path'
+   end
+
 end
+
+profiler:stop()
+
+local outfile = io.open('profile.txt', 'w+')
+profiler:report(outfile)
+outfile:close()
