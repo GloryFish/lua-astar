@@ -139,10 +139,6 @@ function AStar:findPath(fromlocation, tolocation)
 
   local nextNode = nil
 
-  if fnode == nil then
-    print 'fnode is nil'
-  end
-  
   if fnode ~= nil then
     table.insert(self.on, fnode)
     table.insert(self.o, fnode.lid)
@@ -157,8 +153,6 @@ function AStar:findPath(fromlocation, tolocation)
     end
     nextNode = self:_getBestOpenNode()
   end
-  
-  print 'returning nil'
   
   return nil
   

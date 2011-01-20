@@ -42,22 +42,22 @@ end
 function TiledMapHandler:getNode(location)
   -- Here you make sure the requested node is valid (i.e. on the map, not blocked)
   if location.x > #self.tiles[1] or location.y > #self.tiles then
-    print 'location is outside of map on right or bottom'
+    -- print 'location is outside of map on right or bottom'
     return nil
   end
 
   if location.x < 1 or location.y < 1 then
-    print 'location is outside of map on left or top'
+    -- print 'location is outside of map on left or top'
     return nil
   end
 
   if self.tiles[location.y][location.x] == 1 then
-    print(string.format('location is solid: (%i, %i)', location.x, location.y))
+    -- print(string.format('location is solid: (%i, %i)', location.x, location.y))
     
     return nil
   end
 
-  print(string.format('valid location: (%i, %i)', location.x, location.y))
+  -- print(string.format('valid location: (%i, %i)', location.x, location.y))
   
   return Node(location, 10, location.y * #self.tiles + location.x)
 end

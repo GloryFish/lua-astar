@@ -20,8 +20,9 @@ local astar = AStar(handler)
 profiler = newProfiler()
 profiler:start()
 
+print 'Beginning...'
 
-for i=1,100 do
+for i=1,1000 do
 
    local start = {
      x = math.random(1, 23),
@@ -42,6 +43,8 @@ for i=1,100 do
    end
 
 end
+
+print 'Done'
 
 profiler:stop()
 
