@@ -97,7 +97,6 @@ end
 
 function AStar:_handleNode(node, goal)
   self.on[node.lid] = nil
-  self.o[node.lid] = nil
   self.c[node.lid] = node.lid
   
   assert(node.location ~= nil, 'About to pass a node with nil location to getAdjacentNodes')
@@ -109,18 +108,15 @@ function AStar:_handleNode(node, goal)
       return n
     elseif self.c[n.lid] ~= nil then -- Alread in close, skip this
       break
-    elseif self.o[n.lid] ~= nil then -- Already in open, check if better score   
+    elseif self.on[n.lid] ~= nil then -- Already in open, check if better score   
       local on = self.on[n.lid]
     
       if n.mCost < on.mCost then
         self.on[n.lid] = nil
-        self.o[n.lid] = nil
         self.on[n.lid] = n
-        self.o[n.lid] = n.lid
       end
     else -- New node, append to open list
       self.on[n.lid] =  n
-      self.o[n.lid] = n.lid
     end
   until true end
   
@@ -128,7 +124,6 @@ function AStar:_handleNode(node, goal)
 end
 
 function AStar:findPath(fromlocation, tolocation)
-  self.o = {}
   self.on = {}
   self.c = {}
   
@@ -139,7 +134,6 @@ function AStar:findPath(fromlocation, tolocation)
 
   if fnode ~= nil then
     self.on[fnode.lid] = fnode
-    self.o[fnode.lid] = fnode.lid
     nextNode = fnode
   end  
   
