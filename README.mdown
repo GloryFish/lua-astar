@@ -2,7 +2,7 @@
 
 ## About
 
-This is a simple implementation of the A* (A Star) pathfinding algorithm for lua. It is not particularly fast, but it should be relatively easy to read and learn from.
+This is a simple implementation of the A* (A Star) pathfinding algorithm for lua. It is intended to be relatively easy to read and learn from.
 
 It is based on the similarly easy to understand Python implementation by John Eriksson.
  
