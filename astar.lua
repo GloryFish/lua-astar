@@ -64,7 +64,7 @@ end
 function AStar:_getBestOpenNode()
   local bestNode = nil
   
-  for lid, n in pairs(self.on) do
+  for lid, n in pairs(self.open) do
     if bestNode == nil then
       bestNode = n
     else
@@ -96,8 +96,8 @@ function AStar:_tracePath(n)
 end
 
 function AStar:_handleNode(node, goal)
-  self.on[node.lid] = nil
-  self.c[node.lid] = node.lid
+  self.open[node.lid] = nil
+  self.closed[node.lid] = node.lid
   
   assert(node.location ~= nil, 'About to pass a node with nil location to getAdjacentNodes')
   
@@ -106,17 +106,17 @@ function AStar:_handleNode(node, goal)
   for lid, n in pairs(nodes) do repeat
     if self.mh:locationsAreEqual(n.location, goal) then
       return n
-    elseif self.c[n.lid] ~= nil then -- Alread in close, skip this
+    elseif self.closed[n.lid] ~= nil then -- Alread in close, skip this
       break
-    elseif self.on[n.lid] ~= nil then -- Already in open, check if better score   
-      local on = self.on[n.lid]
+    elseif self.open[n.lid] ~= nil then -- Already in open, check if better score   
+      local on = self.open[n.lid]
     
       if n.mCost < on.mCost then
-        self.on[n.lid] = nil
-        self.on[n.lid] = n
+        self.open[n.lid] = nil
+        self.open[n.lid] = n
       end
     else -- New node, append to open list
-      self.on[n.lid] =  n
+      self.open[n.lid] =  n
     end
   until true end
   
@@ -124,8 +124,8 @@ function AStar:_handleNode(node, goal)
 end
 
 function AStar:findPath(fromlocation, tolocation)
-  self.on = {}
-  self.c = {}
+  self.open = {}
+  self.closed = {}
   
   local goal = tolocation
   local fnode = self.mh:getNode(fromlocation)
@@ -133,7 +133,7 @@ function AStar:findPath(fromlocation, tolocation)
   local nextNode = nil
 
   if fnode ~= nil then
-    self.on[fnode.lid] = fnode
+    self.open[fnode.lid] = fnode
     nextNode = fnode
   end  
   
