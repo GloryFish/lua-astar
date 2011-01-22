@@ -34,15 +34,13 @@ for i=1,1000 do
       y = math.random(1, 23)
    }
    
+   -- print(string.format('Testing: (%i, %i) (%i, %i)', start.x, start.y, goal.x, goal.y))
+   
    local path = astar:findPath(start, goal)
 
-   if path ~= nil then
-     print 'Path found'
-   else
-     print 'No path'
-   end
-
 end
+
+
 
 print 'Done'
 

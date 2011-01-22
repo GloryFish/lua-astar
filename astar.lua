@@ -64,7 +64,7 @@ end
 function AStar:_getBestOpenNode()
   local bestNode = nil
   
-  for i, n in ipairs(self.on) do
+  for lid, n in pairs(self.on) do
     if bestNode == nil then
       bestNode = n
     else
@@ -96,33 +96,31 @@ function AStar:_tracePath(n)
 end
 
 function AStar:_handleNode(node, goal)
-  local i = self:_node_table_index(self.o, node.lid)
-  table.remove(self.on, i)
-  table.remove(self.o, i)
-  table.insert(self.c, node.lid)
+  self.on[node.lid] = nil
+  self.o[node.lid] = nil
+  self.c[node.lid] = node.lid
   
   assert(node.location ~= nil, 'About to pass a node with nil location to getAdjacentNodes')
   
   local nodes = self.mh:getAdjacentNodes(node, goal)
 
-  for i, n in ipairs(nodes) do repeat
+  for lid, n in pairs(nodes) do repeat
     if self.mh:locationsAreEqual(n.location, goal) then
       return n
-    elseif self:_in_table(n.lid, self.c) then -- Alread in close, skip this
+    elseif self.c[n.lid] ~= nil then -- Alread in close, skip this
       break
-    elseif self:_in_table(n.lid, self.o) then -- Already in open, check if better score   
-      local i = self:_node_table_index(self.o, n.lid)
-      local on = self.on[i]
+    elseif self.o[n.lid] ~= nil then -- Already in open, check if better score   
+      local on = self.on[n.lid]
     
       if n.mCost < on.mCost then
-        table.remove(self.on, i)
-        table.remove(self.o, i)
-        table.insert(self.on, n)
-        table.insert(self.o, n.lid)
+        self.on[n.lid] = nil
+        self.o[n.lid] = nil
+        self.on[n.lid] = n
+        self.o[n.lid] = n.lid
       end
     else -- New node, append to open list
-      table.insert(self.on, n)
-      table.insert(self.o, n.lid)
+      self.on[n.lid] =  n
+      self.o[n.lid] = n.lid
     end
   until true end
   
@@ -140,8 +138,8 @@ function AStar:findPath(fromlocation, tolocation)
   local nextNode = nil
 
   if fnode ~= nil then
-    table.insert(self.on, fnode)
-    table.insert(self.o, fnode.lid)
+    self.on[fnode.lid] = fnode
+    self.o[fnode.lid] = fnode.lid
     nextNode = fnode
   end  
   
@@ -155,22 +153,4 @@ function AStar:findPath(fromlocation, tolocation)
   end
   
   return nil
-  
-end
-
-function AStar:_node_table_index(tbl, lid)
-  for i,n in ipairs(tbl) do
-    if n == lid then
-      return i
-    end
-  end
-end
-
-function AStar:_in_table(needle, haystack)
-  for _, v in pairs(haystack) do
-    if v == needle then 
-      return true 
-    end
-  end
-  return false
 end

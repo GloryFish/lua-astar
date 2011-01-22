@@ -57,8 +57,6 @@ function TiledMapHandler:getNode(location)
     return nil
   end
 
-  -- print(string.format('valid location: (%i, %i)', location.x, location.y))
-  
   return Node(location, 10, location.y * #self.tiles + location.x)
 end
 
