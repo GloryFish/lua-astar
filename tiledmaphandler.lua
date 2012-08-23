@@ -57,7 +57,7 @@ function TiledMapHandler:getNode(location)
     return nil
   end
 
-  return Node(location, 10, location.y * #self.tiles + location.x)
+  return Node(location, 1, location.y * #self.tiles[1] + location.x)
 end
 
 

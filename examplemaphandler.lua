@@ -41,7 +41,7 @@ end
 function Handler:getNode(location)
   -- Here you make sure the requested node is valid (i.e. on the map, not blocked)
   -- if the location is not valid, return nil, otherwise return a new Node object
-  return Node(location, 10, location.y * #self.tiles + location.x)
+  return Node(location, 1, location.y * #self.tiles[1] + location.x)
 end
 
 function Handler:locationsAreEqual(a, b)
