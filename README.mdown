@@ -37,6 +37,9 @@ Run test.lua to see an example using the TiledMapHandler. This is similar to the
 
 The [source code](https://github.com/GloryFish/RedditGameJam-05) is on GitHub.
 
+## Contributors
+
+[Sandy Maguire](https://github.com/Paamayim) 
 
 ## License
 
